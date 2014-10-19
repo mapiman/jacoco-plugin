@@ -265,7 +265,7 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
 		//String percent = percentFormat.format(ratio.getPercentageFloat());
 		String numerator = intFormat.format(ratio.getMissed());
 		String denominator = intFormat.format(ratio.getCovered());
-		int maximum = 1;
+		/*int maximum = 1;
 		if (ratio.getType().equals(CoverageElement.Type.INSTRUCTION)) {
 			maximum = getParent().maxInstruction;
 		} else if (ratio.getType().equals(CoverageElement.Type.BRANCH)) {
@@ -278,10 +278,10 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
 		    maximum = getParent().maxMethod;
 		} else if (ratio.getType().equals(CoverageElement.Type.CLASS)) {
 		    maximum = getParent().maxClazz;
-		}
+		}*/
 
-		float redBar = ((float) ratio.getMissed())/maximum*100;
-		float greenBar = ((float)ratio.getTotal())/maximum*100;
+		float redBar = Math.round(((float)ratio.getMissed())/ratio.getTotal()*100);
+		float greenBar = Math.round(((float)ratio.getCovered())/ratio.getTotal()*100);
 
 		buf.append("<table class='percentgraph' cellpadding='0px' cellspacing='0px'>")
 		.append("<tr>" +
@@ -290,7 +290,7 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
 		    .append("<td width='40px' class='data'>").append(ratio.getPercentage()).append("%</td>")	
 		    .append("<td>")
 		    .append("<div class='percentgraph' style='width: ").append(greenBar).append("px;'>")
-		    .append("<div class='redbar' style='width: ").append(redBar).append("px;'>")
+		    .append("<div class='redbar' style='width: ").append(redBar).append("px;").append(" margin-left: ").append(greenBar).append("px;'>")
 		    .append("</td></tr>")
 		    .append("</table>");
 	}
@@ -378,19 +378,20 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
 
 				for (CoverageObject<SELF> a = obj; a != null; a = a.getPreviousResult()) {
 					NumberOnlyBuildLabel label = new NumberOnlyBuildLabel(a.getBuild());
-					/*dsb.add(a.instruction.getPercentageFloat(), Messages.CoverageObject_Legend_Instructions(), label);
-                    dsb.add(a.branch.getPercentageFloat(), Messages.CoverageObject_Legend_Branch(), label);
-                    dsb.add(a.complexity.getPercentageFloat(), Messages.CoverageObject_Legend_Complexity(), label);
-                    dsb.add(a.method.getPercentageFloat(), Messages.CoverageObject_Legend_Method(), label);
-                    dsb.add(a.clazz.getPercentageFloat(), Messages.CoverageObject_Legend_Class(), label);*/
-					if (a.line != null) {
+					dsb.add(a.instruction.getPercentageFloat(), Messages.CoverageObject_Legend_Instructions(), label);
+					dsb.add(a.branch.getPercentageFloat(), Messages.CoverageObject_Legend_Branch(), label);
+					dsb.add(a.complexity.getPercentageFloat(), Messages.CoverageObject_Legend_Complexity(), label);
+					dsb.add(a.method.getPercentageFloat(), Messages.CoverageObject_Legend_Method(), label);
+					dsb.add(a.clazz.getPercentageFloat(), Messages.CoverageObject_Legend_Class(), label);
+					dsb.add(a.line.getPercentageFloat(), Messages.CoverageObject_Legend_Line(), label);
+					/*if (a.line != null) {
 						dsb.add(a.line.getCovered(), Messages.CoverageObject_Legend_LineCovered(), label);
 						dsb.add(a.line.getMissed(), Messages.CoverageObject_Legend_LineMissed(), label);
 						
 					} else {
 						dsb.add(0, Messages.CoverageObject_Legend_LineCovered(), label);
 						dsb.add(0, Messages.CoverageObject_Legend_LineMissed(), label);
-					}
+					}*/
 				}
 
 				return dsb;
