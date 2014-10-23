@@ -420,7 +420,7 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
 			final JFreeChart chart = ChartFactory.createLineChart(
 					null, // chart title
 					null, // unused
-					"", // range axis label
+					"%", // range axis label
 					dataset, // data
 					PlotOrientation.VERTICAL, // orientation
 					true, // include legend
@@ -431,7 +431,7 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
 			// NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
 
 			final LegendTitle legend = chart.getLegend();
-			legend.setPosition(RectangleEdge.RIGHT);
+			legend.setPosition(RectangleEdge.BOTTOM);
 
 			chart.setBackgroundPaint(Color.white);
 
@@ -458,14 +458,26 @@ public abstract class CoverageObject<SELF extends CoverageObject<SELF>> {
 			
 			renderer.setSeriesPaint(0, Color.green);
 			renderer.setSeriesPaint(1, Color.red);
+			renderer.setSeriesPaint(2, Color.blue);
+			renderer.setSeriesPaint(3, Color.lightGray);
+			renderer.setSeriesPaint(4, Color.orange);
+			renderer.setSeriesPaint(5, Color.yellow);
 			
 			renderer.setSeriesItemLabelPaint(0, Color.green);
 			renderer.setSeriesItemLabelPaint(1, Color.red);
+			renderer.setSeriesItemLabelPaint(2, Color.blue);
+			renderer.setSeriesItemLabelPaint(3, Color.lightGray);
+			renderer.setSeriesItemLabelPaint(4, Color.orange);
+			renderer.setSeriesItemLabelPaint(5, Color.yellow);
 			
 			renderer.setSeriesFillPaint(0, Color.green);
 			renderer.setSeriesFillPaint(1, Color.red);
+			renderer.setSeriesFillPaint(2, Color.blue);
+			renderer.setSeriesFillPaint(3, Color.lightGray);
+			renderer.setSeriesFillPaint(4, Color.orange);
+			renderer.setSeriesFillPaint(5, Color.yellow);
 			
-			renderer.setBaseStroke(new BasicStroke(4.0f));
+			renderer.setBaseStroke(new BasicStroke(2.0f));
 			//ColorPalette.apply(renderer);
 
 			// crop extra space around the graph
