@@ -33,7 +33,7 @@ THE SOFTWARE.
    </parent>
 
    <artifactId>jacoco</artifactId>
-   <version>1.0.19-SNAPSHOT</version>
+   <version>2.0.2-SNAPSHOT</version>
    <packaging>hpi</packaging>
 
    <name>Jenkins JaCoCo plugin</name>
@@ -75,6 +75,10 @@ THE SOFTWARE.
          <id>centic</id>
          <name>Dominik Stadler</name>
       </developer>
+      <developer>
+         <id>csimons</id>
+         <name>Christopher Simons</name>
+      </developer>
    </developers>
 
    <scm>
@@ -87,7 +91,7 @@ THE SOFTWARE.
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
       <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <jacoco.version>0.7.1.201405082137</jacoco.version>
+      <jacoco.version>0.7.5.201505241946</jacoco.version>
    </properties>
 
    <repositories>
@@ -143,7 +147,7 @@ THE SOFTWARE.
 	<dependency>
                 <groupId>org.easymock</groupId>
                 <artifactId>easymock</artifactId>
-                <version>3.0</version>
+                <version>3.4</version>
 	</dependency>
 	<dependency>
 		<groupId>org.jacoco</groupId>
@@ -256,7 +260,7 @@ THE SOFTWARE.
 		 <plugin>
 			  <groupId>org.jenkins-ci.tools</groupId>
 			  <artifactId>maven-hpi-plugin</artifactId>
-       <version>1.95</version>
+				 <version>1.115</version>
 			  <executions>
 				 <execution>
 				   <phase>compile</phase>
@@ -291,6 +295,7 @@ THE SOFTWARE.
                               </artifactId>
                               <versionRange>[1.64,)</versionRange>
                               <goals>
+                                 <goal>hpi</goal>
                                  <goal>apt-compile</goal>
                                  <goal>insert-test</goal>
                                  <goal>
@@ -299,12 +304,6 @@ THE SOFTWARE.
                                  <goal>test-hpl</goal>
                                  <goal>validate</goal>
                               </goals>
-							  <configuration>
-								<pluginFirstClassLoader>true</pluginFirstClassLoader>
-							  
-							  </configuration>
-							  
-							  
                            </pluginExecutionFilter>
                            <action>
                               <ignore />
@@ -445,7 +444,7 @@ THE SOFTWARE.
                <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-antrun-plugin</artifactId>
-                  <version>1.7</version>
+                  <version>1.8</version>
                   <dependencies>
                      <dependency>
                         <groupId>org.jacoco</groupId>
@@ -455,7 +454,7 @@ THE SOFTWARE.
                      <dependency>
                         <groupId>ant-contrib</groupId>
                         <artifactId>ant-contrib</artifactId>
-                        <version>20020829</version>
+                        <version>1.0b3</version>
                      </dependency>
                   </dependencies>
                   <executions>
@@ -513,6 +512,4 @@ THE SOFTWARE.
          </build>
 		</profile>
 	</profiles>
-
-
 </project>

@@ -76,6 +76,7 @@ public class JacocoPublisher extends Recorder {
     private final String maximumClassCoverage;
     private final boolean changeBuildStatus;
     
+	private static final String DIR_SEP = "\\s*,\\s*";
 
 	/**
      * Loads the configuration set by user.
@@ -269,7 +270,7 @@ public class JacocoPublisher extends Recorder {
 				public FilePath[] invoke(File f, VirtualChannel channel) throws IOException {
 					FilePath base = new FilePath(f);
 					ArrayList<FilePath> localDirectoryPaths= new ArrayList<FilePath>();
-					String[] includes = input.split(",");
+					String[] includes = input.split(DIR_SEP);
 					DirectoryScanner ds = new DirectoryScanner();
 			        
 			        ds.setIncludes(includes);
@@ -359,12 +360,12 @@ public class JacocoPublisher extends Recorder {
         logger.println("\n[JaCoCo plugin] Loading inclusions files..");
         String[] includes = {};
         if (inclusionPattern != null) {
-        	includes = inclusionPattern.split(",");
+        	includes = inclusionPattern.split(DIR_SEP);
         	logger.println("[JaCoCo plugin] inclusions: " + Arrays.toString(includes));
         }
         String[] excludes = {};
         if (exclusionPattern != null) {
-        	excludes = exclusionPattern.split(",");
+        	excludes = exclusionPattern.split(DIR_SEP);
         	logger.println("[JaCoCo plugin] exclusions: " + Arrays.toString(excludes));
         }
         
@@ -380,6 +381,11 @@ public class JacocoPublisher extends Recorder {
             logger.println("[JaCoCo plugin] Could not parse coverage results. Setting Build to failure.");
             build.setResult(Result.FAILURE);
         } else {
+            logger.println("[JaCoCo plugin] Overall coverage: class: " + result.getClassCoverage().getPercentage()
+                    + ", method: " + result.getMethodCoverage().getPercentage()
+                    + ", line: " + result.getLineCoverage().getPercentage()
+                    + ", branch: " + result.getBranchCoverage().getPercentage()
+                    + ", instruction: " + result.getInstructionCoverage().getPercentage());
         	result.setThresholds(healthReports);
         	if (changeBuildStatus) {
         		build.setResult(checkResult(action));
@@ -389,10 +395,10 @@ public class JacocoPublisher extends Recorder {
     }
 
 	public Result checkResult(JacocoBuildAction action) {
-		if ((action.getBranchCoverage().getPercentage() < action.getThresholds().getMinBranch()) || (action.getInstructionCoverage().getPercentage() < action.getThresholds().getMinInstruction())  || (action.getClassCoverage().getPercentage() < action.getThresholds().getMinClass())  || (action.getLineCoverage().getPercentage() < action.getThresholds().getMinLine())  || (action.getComplexityScore().getPercentage() < action.getThresholds().getMinComplexity())  || (action.getMethodCoverage().getPercentage() < action.getThresholds().getMinMethod())) {
+		if ((action.getBranchCoverage().getPercentageFloat() < action.getThresholds().getMinBranch()) || (action.getInstructionCoverage().getPercentageFloat() < action.getThresholds().getMinInstruction())  || (action.getClassCoverage().getPercentageFloat() < action.getThresholds().getMinClass())  || (action.getLineCoverage().getPercentageFloat() < action.getThresholds().getMinLine())  || (action.getComplexityScore().getPercentageFloat() < action.getThresholds().getMinComplexity())  || (action.getMethodCoverage().getPercentageFloat() < action.getThresholds().getMinMethod())) {
 			return Result.FAILURE;
 		}
-		if ((action.getBranchCoverage().getPercentage() < action.getThresholds().getMaxBranch()) || (action.getInstructionCoverage().getPercentage() < action.getThresholds().getMaxInstruction())  || (action.getClassCoverage().getPercentage() < action.getThresholds().getMaxClass())  || (action.getLineCoverage().getPercentage() < action.getThresholds().getMaxLine())  || (action.getComplexityScore().getPercentage() < action.getThresholds().getMaxComplexity())  || (action.getMethodCoverage().getPercentage() < action.getThresholds().getMaxMethod())) {
+		if ((action.getBranchCoverage().getPercentageFloat() < action.getThresholds().getMaxBranch()) || (action.getInstructionCoverage().getPercentageFloat() < action.getThresholds().getMaxInstruction())  || (action.getClassCoverage().getPercentageFloat() < action.getThresholds().getMaxClass())  || (action.getLineCoverage().getPercentageFloat() < action.getThresholds().getMaxLine())  || (action.getComplexityScore().getPercentageFloat() < action.getThresholds().getMaxComplexity())  || (action.getMethodCoverage().getPercentageFloat() < action.getThresholds().getMaxMethod())) {
 			return Result.UNSTABLE;
 		}
 		return Result.SUCCESS;
